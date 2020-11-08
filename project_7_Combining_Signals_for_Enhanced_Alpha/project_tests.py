@@ -11,7 +11,7 @@ from tests import assert_output, project_test, generate_random_dates, assert_str
 
 
 def get_assets(ticker_count):
-    bundle = bundles.load('eod-quotemedia')
+    bundle = bundles.load('custom-csvdir-bundle')
     return bundle.asset_finder.retrieve_all(bundle.asset_finder.sids[:ticker_count])
 
 

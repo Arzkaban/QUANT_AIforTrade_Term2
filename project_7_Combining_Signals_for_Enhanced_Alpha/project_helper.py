@@ -7,19 +7,32 @@ import pandas as pd
 from IPython.display import Image
 from sklearn.tree import export_graphviz
 from zipline.assets._assets import Equity  # Required for USEquityPricing
+# from zipline.pipeline.data import CNEquityPricing
 from zipline.pipeline.data import USEquityPricing
 from zipline.pipeline.classifiers import Classifier
 from zipline.pipeline.engine import SimplePipelineEngine
-from zipline.pipeline.loaders import USEquityPricingLoader
+# from zipline.pipeline.loaders import EquityPricingLoader
+from zipline.pipeline.loaders import CNEquityPricingLoader
 from zipline.utils.numpy_utils import int64_dtype
+# from zipline.pipeline.domain import CN_EQUITIES,US_EQUITIES
 
 
-EOD_BUNDLE_NAME = 'eod-quotemedia'
+EOD_BUNDLE_NAME = 'custom-csvdir-bundle'
 
+# class PricingLoader(object):
+#     def __init__(self, bundle_data):
+#         self.loader = USEquityPricingLoader(
+#             bundle_data.equity_daily_bar_reader,
+#             bundle_data.adjustment_reader)
+
+#     def get_loader(self, column):
+#         if column not in USEquityPricing.columns:
+#             raise Exception('Column not in USEquityPricing')
+#         return self.loader
 
 class PricingLoader(object):
     def __init__(self, bundle_data):
-        self.loader = USEquityPricingLoader(
+        self.loader = CNEquityPricingLoader(
             bundle_data.equity_daily_bar_reader,
             bundle_data.adjustment_reader)
 
@@ -27,6 +40,17 @@ class PricingLoader(object):
         if column not in USEquityPricing.columns:
             raise Exception('Column not in USEquityPricing')
         return self.loader
+    
+# class PricingLoader(object):
+#     def __init__(self, bundle_data):
+#         self.loader = EquityPricingLoader(
+#             bundle_data.equity_daily_bar_reader,
+#             bundle_data.adjustment_reader)
+
+#     def get_loader(self, column):
+#         if column not in CNEquityPricing.columns:
+#             raise Exception('Column not in CNEquityPricing')
+#         return self.loader
 
 
 class Sector(Classifier):
@@ -55,6 +79,16 @@ def build_pipeline_engine(bundle_data, trading_calendar):
         asset_finder=bundle_data.asset_finder)
 
     return engine
+
+# def build_pipeline_engine(bundle_data):
+#     pricing_loader = PricingLoader(bundle_data)
+
+#     engine = SimplePipelineEngine(
+#         get_loader=pricing_loader.get_loader,
+#         asset_finder=bundle_data.asset_finder,
+#         default_domain = US_EQUITIES)
+
+#     return engine
 
 
 def plot_tree_classifier(clf, feature_names=None):
