@@ -101,7 +101,7 @@ def plot_tree_classifier(clf, feature_names=None):
         special_characters=True,
         rotate=True)
 
-    return Image(graphviz.Source(dot_data).pipe(format='png'))
+    return Image(graphviz.Source(dot_data.replace('helvetica','"Microsoft YaHei"'), encoding='utf-8').pipe(format='png'))
 
 
 def plot(xs, ys, labels, title='', x_label='', y_label=''):
