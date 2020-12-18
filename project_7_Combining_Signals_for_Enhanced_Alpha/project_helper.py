@@ -143,7 +143,6 @@ def get_factor_returns(factor_data):
 
     return ls_factor_returns
 
-
 def plot_factor_returns(factor_returns):
     (1 + factor_returns).cumprod().plot(ylim=(0.8, 1.2))
 
