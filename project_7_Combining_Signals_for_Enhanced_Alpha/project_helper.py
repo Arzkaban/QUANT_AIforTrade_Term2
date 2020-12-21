@@ -163,5 +163,5 @@ def plot_factor_rank_autocorrelation(factor_data):
 
 
 def build_factor_data(factor_data, pricing,max_loss=0.35):
-    return {factor_name: al.utils.get_clean_factor_and_forward_returns(factor=data, prices=pricing,max_loss=max_loss, periods=[1])
+    return {factor_name: al.utils.get_clean_factor_and_forward_returns(factor=data, prices=pricing,max_loss=max_loss, periods=[1,5,10])
         for factor_name, data in factor_data.iteritems()}
