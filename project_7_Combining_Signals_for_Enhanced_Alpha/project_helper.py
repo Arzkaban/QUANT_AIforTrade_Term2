@@ -143,11 +143,11 @@ def get_factor_returns(factor_data):
 
     return ls_factor_returns
 
-def plot_factor_returns(factor_returns):
-    (1 + factor_returns).cumprod().plot(ylim=(0.8, 1.2))
+def plot_factor_returns(factor_returns,period=1):
+    (1 + factor_returns/period).cumprod().plot()
 
 
-def plot_factor_rank_autocorrelation(factor_data):
+def plot_factor_rank_autocorrelation(factor_data,period=1):
     ls_FRA = pd.DataFrame()
 
     unixt_factor_data = {
@@ -157,11 +157,11 @@ def plot_factor_rank_autocorrelation(factor_data):
         for factor, factor_data in factor_data.items()}
 
     for factor, factor_data in unixt_factor_data.items():
-        ls_FRA[factor] = al.performance.factor_rank_autocorrelation(factor_data)
+        ls_FRA[factor] = al.performance.factor_rank_autocorrelation(factor_data,period=period)
 
     ls_FRA.plot(title="Factor Rank Autocorrelation", ylim=(0.8, 1.0))
 
 
-def build_factor_data(factor_data, pricing,max_loss=0.35,periods=(1,5,10)):
+def build_factor_data(factor_data, pricing,max_loss=0.35,periods=[1,5,10]):
     return {factor_name: al.utils.get_clean_factor_and_forward_returns(factor=data, prices=pricing,max_loss=max_loss, periods=periods)
         for factor_name, data in factor_data.iteritems()}
